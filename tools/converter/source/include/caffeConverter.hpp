@@ -18,7 +18,6 @@
  * @param bizCode(not used, always is MNN)
  * @param MNN net
  */
-int caffe2MNNNet(const std::string prototxtFile, const std::string modelFile, const std::string bizCode,
-                 std::unique_ptr<MNN::NetT>& netT);
+std::string caffe2MNNNet(const std::string prototxtStr, const std::string modelStr, const std::string bizCode);
 
 #endif // CAFFECONVERTER_HPP

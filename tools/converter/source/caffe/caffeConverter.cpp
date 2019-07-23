@@ -18,6 +18,8 @@
 
 #include "CaffeUtils.hpp"
 #include "caffeConverter.hpp"
+#include "optimizer.hpp"
+#include "writeFb.hpp"
 
 static void _turnV1LayersToV2(caffe::NetParameter& caffeModel) {
     if (caffeModel.layers_size() <= 0 || caffeModel.layer_size() > 0) {
@@ -41,15 +43,14 @@ static void _turnV1LayersToV2(caffe::NetParameter& caffeModel) {
     caffeModel.mutable_layers()->Clear();
 }
 
-int caffe2MNNNet(const std::string prototxtFile, const std::string modelFile, const std::string bizCode,
-                 std::unique_ptr<MNN::NetT>& netT) {
+std::string caffe2MNNNet(const std::string prototxtStr, const std::string modelStr, const std::string bizCode) {
+    std::unique_ptr<MNN::NetT> netT = std::unique_ptr<MNN::NetT>(new MNN::NetT());
     caffe::NetParameter caffeProtxt;
     caffe::NetParameter caffeModel;
-    bool succ = read_proto_from_text(prototxtFile.c_str(), &caffeProtxt);
-    DCHECK(succ) << "read_proto_from_text failed";
-
-    succ = read_proto_from_binary(modelFile.c_str(), &caffeModel);
-    DCHECK(succ) << "read_proto_from_binary failed";
+    bool succ = google::protobuf::TextFormat::ParseFromString(prototxtStr, &caffeProtxt);
+    DCHECK(succ) << "read prototxt failed";
+    succ = caffeModel.ParseFromString(modelStr);
+    DCHECK(succ) << "read caffemodel failed";
     std::map<std::string, int> tensorName;
 
     _turnV1LayersToV2(caffeModel);
@@ -165,5 +166,6 @@ int caffe2MNNNet(const std::string prototxtFile, const std::string modelFile, co
     netT->sourceType = MNN::NetSource_CAFFE;
     netT->bizCode    = bizCode;
 
-    return 0;
+    std::unique_ptr<MNN::NetT> newNet = optimizeNet(netT);
+    return writeFb(newNet, false);
 }
