@@ -29,9 +29,9 @@ if(TFMODEL_OPTIMIZE)
 endif()
 
 # -----------find protobuf lib-----------
-if (NOT DEFINED Protobuf_LIBRARIES OR NOT DEFINED Protobuf_INCLUDE_DIRS)
-    find_package(Protobuf REQUIRED)
-endif()
+# if (NOT DEFINED Protobuf_LIBRARIES OR NOT DEFINED Protobuf_INCLUDE_DIRS)
+#     find_package(Protobuf REQUIRED)
+# endif()
 if (${CMAKE_VERSION} VERSION_LESS "3.6.0")
     set(Protobuf_LIBRARIES ${PROTOBUF_LIBRARIES})
     set(Protobuf_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
@@ -75,5 +75,5 @@ set(COMMAND_SRC
     ${SRC_PATH}/config.cpp
 )
 
-add_executable(MNNConvert ${SRC_PATH}/MNNConverter.cpp ${COMMAND_SRC})
-target_link_libraries(MNNConvert tensorflow caffe onnx_mnn mnn_bizcode tflite optimizer COMMON_LIB ${Protobuf_LIBRARIES})
+# add_executable(MNNConvert ${SRC_PATH}/MNNConverter.cpp ${COMMAND_SRC})
+# target_link_libraries(MNNConvert tensorflow caffe onnx_mnn mnn_bizcode tflite optimizer COMMON_LIB ${Protobuf_LIBRARIES})

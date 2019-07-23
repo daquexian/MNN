@@ -26,5 +26,5 @@ include_directories(${SRC_PATH}/IR)
 include_directories(${SRC_PATH}/include)
 
 file(GLOB ONNX_SRC ${SRC_PATH}/onnx/*)
-add_library(onnx_mnn SHARED ${ONNX_SRC} ${ONNX_PROTO_SRCS})
-target_link_libraries(onnx_mnn ${Protobuf_LIBRARIES})
+add_library(onnx2mnn SHARED ${ONNX_SRC} ${ONNX_PROTO_SRCS})
+target_link_libraries(onnx2mnn protobuf::libprotobuf)
