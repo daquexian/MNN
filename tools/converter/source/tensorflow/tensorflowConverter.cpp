@@ -21,14 +21,20 @@
 #include "flatbuffers/minireflect.h"
 #include "flatbuffers/util.h"
 #include "tfOpConverter.hpp"
+#include "optimizer.hpp"
+#include "writeFb.hpp"
 
 #include "tensorflowConverter.hpp"
 
-int tensorflow2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT> &netT) {
+tl::expected<std::string, std::string>
+tensorflow2MNNNet(const std::string modelStr, const std::string bizCode) {
+    try {
+        std::unique_ptr<MNN::NetT> netT =
+            std::unique_ptr<MNN::NetT>(new MNN::NetT());
     tensorflow::GraphDef tfGraph;
 
     // load
-    bool success = tf_read_proto_from_binary(inputModel.c_str(), &tfGraph);
+    bool success = tfGraph.ParseFromString(modelStr);
     DCHECK(success) << "read_proto_from_binary failed";
 
     // build the temp graph
@@ -126,5 +132,10 @@ int tensorflow2MNNNet(const std::string inputModel, const std::string bizCode, s
 
     delete tempGraph;
 
-    return 0;
+        std::unique_ptr<MNN::NetT> newNet = optimizeNet(netT);
+        return writeFb(newNet, false);
+
+    } catch (const std::exception &e) {
+        return tl::make_unexpected(e.what());
+    }
 }

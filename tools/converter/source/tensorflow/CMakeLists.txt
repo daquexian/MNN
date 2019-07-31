@@ -5,7 +5,7 @@ project(tensorflow)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+add_include(${CMAKE_CURRENT_BINARY_DIR})
 
 protobuf_generate_cpp(TENSORFLOW_PROTO_SRCS TENSORFLOW_PROTO_HDRS
     attr_value.proto
@@ -20,10 +20,9 @@ protobuf_generate_cpp(TENSORFLOW_PROTO_SRCS TENSORFLOW_PROTO_HDRS
     versions.proto
 )
 
-include_directories(${SRC_PATH}/IR)
-include_directories(${SRC_PATH}/include)
+add_include(${SRC_PATH}/IR)
+add_include(${SRC_PATH}/include)
 
 file(GLOB TENSORFLOW_SRC ${SRC_PATH}/tensorflow/*)
 
-add_library(tensorflow SHARED ${TENSORFLOW_SRC} ${TENSORFLOW_PROTO_SRCS})
-target_link_libraries(tensorflow protobuf::libprotobuf)
+add_source(${TENSORFLOW_SRC} ${TENSORFLOW_PROTO_SRCS})
