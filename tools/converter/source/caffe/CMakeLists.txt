@@ -11,18 +11,20 @@ if (${CMAKE_VERSION} VERSION_LESS "3.6.0")
     set(Protobuf_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
 endif()
 
-include_directories(${Protobuf_INCLUDE_DIRS})
+add_include(${Protobuf_INCLUDE_DIRS})
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+add_include(${CMAKE_CURRENT_BINARY_DIR})
 
 protobuf_generate_cpp(CAFFE_PROTO_SRCS CAFFE_PROTO_HDRS
     caffe.proto
 )
 
-include_directories(${SRC_PATH}/IR)
-include_directories(${SRC_PATH}/include)
+add_include(${SRC_PATH}/IR)
+add_include(${SRC_PATH}/include)
 
 file(GLOB CAFFE_SRC ${SRC_PATH}/caffe/*)
 
-add_library(caffe2mnn SHARED ${CAFFE_SRC} ${CAFFE_PROTO_SRCS})
-target_link_libraries(caffe2mnn protobuf::libprotobuf)
+add_source(${CAFFE_SRC} ${CAFFE_PROTO_SRCS})
+
+# add_library(caffe2mnn SHARED ${CAFFE_SRC} ${CAFFE_PROTO_SRCS})
+# target_link_libraries(caffe2mnn protobuf::libprotobuf)
