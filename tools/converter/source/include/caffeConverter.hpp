@@ -11,6 +11,8 @@
 
 #include "MNN_generated.h"
 
+#include <expected.hpp>
+
 /**
  * @brief convert caffe model(prototxt and caffemodel) to MNN model
  * @param prototxtFile prototxt file name
@@ -18,6 +20,7 @@
  * @param bizCode(not used, always is MNN)
  * @param MNN net
  */
-std::string caffe2MNNNet(const std::string prototxtStr, const std::string modelStr, const std::string bizCode);
+tl::expected<std::string, std::string>
+caffe2MNNNet(const std::string prototxtStr, const std::string modelStr, const std::string bizCode);
 
 #endif // CAFFECONVERTER_HPP
