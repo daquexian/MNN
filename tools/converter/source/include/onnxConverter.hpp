@@ -11,12 +11,15 @@
 
 #include "MNN_generated.h"
 
+#include <expected.hpp>
+
 /**
  * @brief convert ONNX model to MNN model
  * @param inputModel ONNX model name(xxx.onnx)
  * @param bizCode(not used, always is MNN)
  * @param MNN net
  */
-int onnx2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT);
+tl::expected<std::string, std::string>
+onnx2MNNNet(const std::string modelStr, const std::string bizCode);
 
 #endif // ONNXCONVERTER_HPP

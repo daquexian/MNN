@@ -16,15 +16,22 @@
 #include "flatbuffers/idl.h"
 #include "flatbuffers/minireflect.h"
 #include "flatbuffers/util.h"
-#include "onnx.pb.h"
+#include "onnx/onnx_pb.h"
 #include "onnxConverter.hpp"
 #include "onnxOpConverter.hpp"
+#include "optimizer.hpp"
+#include "writeFb.hpp"
 
-int onnx2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT) {
+tl::expected<std::string, std::string>
+onnx2MNNNet(const std::string modelStr, const std::string bizCode) {
+    try {
+        std::unique_ptr<MNN::NetT> netT =
+            std::unique_ptr<MNN::NetT>(new MNN::NetT());
     onnx::ModelProto onnxModel;
     // read ONNX Model
-    bool success = onnx_read_proto_from_binary(inputModel.c_str(), &onnxModel);
-    DCHECK(success) << "read onnx model failed: " << inputModel;
+    bool success = onnxModel.ParseFromString(modelStr);
+        
+    DCHECK(success) << "read onnx model failed";
 
     LOG(INFO) << "ONNX Model ir version: " << onnxModel.ir_version();
 
@@ -184,5 +191,10 @@ int onnx2MNNNet(const std::string inputModel, const std::string bizCode, std::un
     netT->sourceType = MNN::NetSource_CAFFE;
     netT->bizCode    = bizCode;
 
-    return 0;
+        std::unique_ptr<MNN::NetT> newNet = optimizeNet(netT);
+        return writeFb(newNet, false);
+
+    } catch (const std::exception &e) {
+        return tl::make_unexpected(e.what());
+    }
 }

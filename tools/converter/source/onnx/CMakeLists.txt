@@ -11,9 +11,9 @@ if (${CMAKE_VERSION} VERSION_LESS "3.6.0")
     set(Protobuf_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
 endif()
 
-include_directories(${Protobuf_INCLUDE_DIRS})
+add_include(${Protobuf_INCLUDE_DIRS})
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+add_include(${CMAKE_CURRENT_BINARY_DIR})
 
 # protobuf_generate_cpp(ONNX_PROTO_SRCS ONNX_PROTO_HDRS
 #     onnx.proto
@@ -22,9 +22,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 #     # onnx-operators-ml.proto
 # )
 
-include_directories(${SRC_PATH}/IR)
-include_directories(${SRC_PATH}/include)
+add_include(${SRC_PATH}/IR)
+add_include(${SRC_PATH}/include)
 
 file(GLOB ONNX_SRC ${SRC_PATH}/onnx/*)
-add_library(onnx2mnn SHARED ${ONNX_SRC})
-target_link_libraries(onnx2mnn onnx protobuf::libprotobuf)
+add_source(${ONNX_SRC})
