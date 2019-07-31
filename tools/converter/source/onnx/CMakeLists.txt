@@ -15,16 +15,16 @@ include_directories(${Protobuf_INCLUDE_DIRS})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-protobuf_generate_cpp(ONNX_PROTO_SRCS ONNX_PROTO_HDRS
-    onnx.proto
-    onnx-operators.proto
-    # onnx-ml.proto
-    # onnx-operators-ml.proto
-)
+# protobuf_generate_cpp(ONNX_PROTO_SRCS ONNX_PROTO_HDRS
+#     onnx.proto
+#     onnx-operators.proto
+#     # onnx-ml.proto
+#     # onnx-operators-ml.proto
+# )
 
 include_directories(${SRC_PATH}/IR)
 include_directories(${SRC_PATH}/include)
 
 file(GLOB ONNX_SRC ${SRC_PATH}/onnx/*)
-add_library(onnx2mnn SHARED ${ONNX_SRC} ${ONNX_PROTO_SRCS})
-target_link_libraries(onnx2mnn protobuf::libprotobuf)
+add_library(onnx2mnn SHARED ${ONNX_SRC})
+target_link_libraries(onnx2mnn onnx protobuf::libprotobuf)
