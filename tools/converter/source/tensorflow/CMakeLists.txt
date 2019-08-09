@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_include(${CMAKE_CURRENT_BINARY_DIR})
 
-protobuf_generate_cpp(TENSORFLOW_PROTO_SRCS TENSORFLOW_PROTO_HDRS
+add_proto(
     attr_value.proto
     function.proto
     graph.proto

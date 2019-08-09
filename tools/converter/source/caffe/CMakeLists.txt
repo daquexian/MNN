@@ -15,7 +15,7 @@ add_include(${Protobuf_INCLUDE_DIRS})
 
 add_include(${CMAKE_CURRENT_BINARY_DIR})
 
-protobuf_generate_cpp(CAFFE_PROTO_SRCS CAFFE_PROTO_HDRS
+add_proto(
     caffe.proto
 )
 
