@@ -1,4 +1,5 @@
 IF(MNN_BUILD_CONVERTER)
+  set(MNN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS_ORIGIN})
   set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS_ORIGIN})
   SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../../)
@@ -7,11 +8,21 @@ IF(MNN_BUILD_CONVERTER)
   IF(MNN_PORTABLE_BUILD)
     SET(Protobuf_USE_STATIC_LIBS ON)
   ENDIF()
-  find_package(Protobuf REQUIRED)
+  # find_package(Protobuf REQUIRED)
   if (${CMAKE_VERSION} VERSION_LESS "3.6.0")
       set(Protobuf_LIBRARIES ${PROTOBUF_LIBRARIES})
       set(Protobuf_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
   endif()
+  link_libraries(protobuf::libprotobuf)
+  # include_directories(${MNN_DIR}/include/
+  #     ${MNN_DIR}/source/
+  #     ${MNN_DIR}/schema/current/
+  #     ${MNN_DIR}/3rd_party/
+  #     ${MNN_DIR}/3rd_party/flatbuffers/include
+  #     ${MNN_DIR}/3rd_party/half
+  #     ${MNN_DIR}/3rd_party/imageHelper
+  #     ${MNN_DIR}/3rd_party/OpenCLHeaders/
+  #                 )
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include/)
   include_directories(${CMAKE_CURRENT_LIST_DIR}/source/tflite/schema/)
   include_directories(${Protobuf_INCLUDE_DIRS})
@@ -23,26 +34,27 @@ IF(MNN_BUILD_CONVERTER)
   include(${CMAKE_CURRENT_LIST_DIR}/source/tensorflow/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/onnx/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/caffe/CMakeLists.txt)
-  include(${CMAKE_CURRENT_LIST_DIR}/source/MNN/CMakeLists.txt)
+  # include(${CMAKE_CURRENT_LIST_DIR}/source/MNN/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/optimizer/CMakeLists.txt)
-  include(${CMAKE_CURRENT_LIST_DIR}/source/tflite/CMakeLists.txt)
+  # include(${CMAKE_CURRENT_LIST_DIR}/source/tflite/CMakeLists.txt)
 
   file(GLOB COMMON_SRC ${CMAKE_CURRENT_LIST_DIR}/source/common/*.cpp)
   add_executable(MNNDump2Json ${CMAKE_CURRENT_LIST_DIR}/source/MNNDump2Json.cpp)
-  add_dependencies(MNNDump2Json MNN_SCHEMA_GEN)
+  # add_dependencies(MNNDump2Json MNN_SCHEMA_GEN)
   add_executable(MNNConvert
     ${CMAKE_CURRENT_LIST_DIR}/source/MNNConverter.cpp
     ${CMAKE_CURRENT_LIST_DIR}/source/cli.cpp
     ${CMAKE_CURRENT_LIST_DIR}/source/config.cpp
   )
   IF(MNN_BUILD_SHARED_LIBS)
-    add_library(MNNConvertDeps SHARED ${COMMON_SRC} ${MNN_CONVERTER_BACKENDS_OBJECTS} ${CMAKE_SOURCE_DIR}/3rd_party/flatbuffers/src/util.cpp)
+      add_library(MNNConvertDeps SHARED ${COMMON_SRC} ${MNN_CONVERTER_BACKENDS_OBJECTS} ${MNN_DIR}/3rd_party/flatbuffers/src/util.cpp)
     add_dependencies(MNNConvertDeps MNN)
   ELSE()
-    add_library(MNNConvertDeps STATIC ${COMMON_SRC} ${MNN_CONVERTER_BACKENDS_OBJECTS} ${CMAKE_SOURCE_DIR}/3rd_party/flatbuffers/src/util.cpp)
+      add_library(MNNConvertDeps STATIC ${COMMON_SRC} ${MNN_CONVERTER_BACKENDS_OBJECTS} ${MNN_DIR}/3rd_party/flatbuffers/src/util.cpp)
   ENDIF()
   
-  
+    target_link_libraries(MNNConvertDeps PUBLIC protobuf::libprotobuf)
+
   IF(NOT MNN_BUILD_SHARED_LIBS)
     target_link_libraries(MNNConvertDeps PUBLIC ${Protobuf_LIBRARIES})
     if(APPLE)
@@ -58,5 +70,5 @@ IF(MNN_BUILD_CONVERTER)
     target_link_libraries(TestConvertResult MNNConvertDeps)
     target_link_libraries(MNNConvert MNNConvertDeps)
   ENDIF()
-  add_dependencies(MNNConvert MNN_SCHEMA_GEN)
+  # add_dependencies(MNNConvert MNN_SCHEMA_GEN)
 ENDIF()

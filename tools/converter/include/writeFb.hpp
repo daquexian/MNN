@@ -17,6 +17,6 @@
  *@param benchmarkModel benchmarkModel is true, then delete the weight of Convolution etc.
  *@param saveHalfFloat when saveHalfFloat is true, save weight in half float data type
  */
-int writeFb(std::unique_ptr<MNN::NetT>& netT, const std::string& MNNModelFile, bool benchmarkModel, bool saveHalfFloat);
+std::string writeFb(std::unique_ptr<MNN::NetT>& netT, bool benchmarkModel, bool saveHalfFloat);
 
 #endif // WRITEFB_HPP

@@ -23,7 +23,7 @@
 int onnx2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT) {
     onnx::ModelProto onnxModel;
     // read ONNX Model
-    bool success = onnx_read_proto_from_binary(inputModel.c_str(), &onnxModel);
+    bool success = onnxModel.ParseFromString(inputModel);
     DCHECK(success) << "read onnx model failed: " << inputModel;
 
     LOG(INFO) << "ONNX Model ir version: " << onnxModel.ir_version();

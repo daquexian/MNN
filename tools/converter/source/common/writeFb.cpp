@@ -15,7 +15,7 @@
 #include "logkit.h"
 #include "writeFb.hpp"
 
-int writeFb(std::unique_ptr<MNN::NetT>& netT, const std::string& MNNModelFile, bool benchmarkModel,
+std::string writeFb(std::unique_ptr<MNN::NetT>& netT, bool benchmarkModel,
             bool saveHalfFloat) {
     if (benchmarkModel) {
         for (auto& op : netT->oplists) {
@@ -112,9 +112,5 @@ int writeFb(std::unique_ptr<MNN::NetT>& netT, const std::string& MNNModelFile, b
     builderOutput.Finish(len);
     int sizeOutput    = builderOutput.GetSize();
     auto bufferOutput = builderOutput.GetBufferPointer();
-
-    std::ofstream output(MNNModelFile, std::ofstream::binary);
-    output.write((const char*)bufferOutput, sizeOutput);
-
-    return 0;
+    return std::string(reinterpret_cast<char *>(bufferOutput), sizeOutput);
 }
