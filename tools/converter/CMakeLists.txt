@@ -13,7 +13,6 @@ IF(MNN_BUILD_CONVERTER)
       set(Protobuf_LIBRARIES ${PROTOBUF_LIBRARIES})
       set(Protobuf_INCLUDE_DIRS ${PROTOBUF_INCLUDE_DIRS})
   endif()
-  link_libraries(protobuf::libprotobuf)
   # include_directories(${MNN_DIR}/include/
   #     ${MNN_DIR}/source/
   #     ${MNN_DIR}/schema/current/
@@ -34,11 +33,12 @@ IF(MNN_BUILD_CONVERTER)
   include(${CMAKE_CURRENT_LIST_DIR}/source/tensorflow/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/onnx/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/caffe/CMakeLists.txt)
-  # include(${CMAKE_CURRENT_LIST_DIR}/source/MNN/CMakeLists.txt)
+  include(${CMAKE_CURRENT_LIST_DIR}/source/MNN/CMakeLists.txt)
   include(${CMAKE_CURRENT_LIST_DIR}/source/optimizer/CMakeLists.txt)
-  # include(${CMAKE_CURRENT_LIST_DIR}/source/tflite/CMakeLists.txt)
+  include(${CMAKE_CURRENT_LIST_DIR}/source/tflite/CMakeLists.txt)
 
   file(GLOB COMMON_SRC ${CMAKE_CURRENT_LIST_DIR}/source/common/*.cpp)
+  add_source(${COMMON_SRC})
   add_executable(MNNDump2Json ${CMAKE_CURRENT_LIST_DIR}/source/MNNDump2Json.cpp)
   # add_dependencies(MNNDump2Json MNN_SCHEMA_GEN)
   add_executable(MNNConvert

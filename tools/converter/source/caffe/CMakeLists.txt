@@ -1,7 +1,11 @@
+add_proto(
+    ${CMAKE_CURRENT_LIST_DIR}/caffe.proto
+    )
 protobuf_generate_cpp(CAFFE_PROTO_SRCS CAFFE_PROTO_HDRS
     ${CMAKE_CURRENT_LIST_DIR}/caffe.proto
 )
 file(GLOB CAFFE_SRC ${CMAKE_CURRENT_LIST_DIR}/*.cpp)
+add_source(${CAFFE_SRC})
 add_library(MNNConverterCaffe OBJECT ${CAFFE_SRC} ${CAFFE_PROTO_SRCS})
 target_include_directories(MNNConverterCaffe PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}

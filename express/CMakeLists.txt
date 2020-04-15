@@ -1,4 +1,9 @@
 file(GLOB_RECURSE MNN_EXPR_SRCS "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
+file(GLOB_RECURSE MNN_EXPR_SRCS_for_wasm "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
+list(REMOVE_ITEM MNN_EXPR_SRCS_for_wasm ${CMAKE_CURRENT_LIST_DIR}/Executor.cpp)
+add_source(
+    ${MNN_EXPR_SRCS}
+    )
 option(MNN_EXPR_ENABLE_PROFILER "Support profile Expr's op cost" OFF)
 IF (MNN_EXPR_ENABLE_PROFILER)
     add_definitions(-DMNN_EXPR_ENABLE_PROFILER)

@@ -283,6 +283,15 @@ set(MNN_TARGETS "")
 
 # Core
 FILE(GLOB MNN_Core_SRC ${CMAKE_CURRENT_LIST_DIR}/source/core/*)
+add_source(${MNN_Core_SRC})
+# FILE(GLOB MNN_Core_SRC_for_wasm ${CMAKE_CURRENT_LIST_DIR}/source/core/*)
+# list(REMOVE_ITEM MNN_Core_SRC_for_wasm ${CMAKE_CURRENT_LIST_DIR}/source/core/BackendRegister.cpp ${CMAKE_CURRENT_LIST_DIR}/source/core/Backend.cpp)
+# add_source(
+#     ${CMAKE_CURRENT_LIST_DIR}/source/core/WrapExecution.cpp
+#     ${CMAKE_CURRENT_LIST_DIR}/source/core/SizeComputer.cpp
+#     ${CMAKE_CURRENT_LIST_DIR}/source/core/Tensor.cpp
+#     ${CMAKE_CURRENT_LIST_DIR}/source/core/TensorUtils.cpp
+#     )
 add_library(MNNCore OBJECT ${MNN_Core_SRC})
 list(APPEND MNN_OBJECTS_TO_LINK $<TARGET_OBJECTS:MNNCore>)
 list(APPEND MNN_TARGETS MNNCore)
@@ -295,6 +304,7 @@ list(APPEND MNN_TARGETS MNNCV)
 
 # Math
 FILE(GLOB MNN_Math_SRC ${CMAKE_CURRENT_LIST_DIR}/source/math/*)
+add_source(${MNN_Math_SRC})
 add_library(MNNMath OBJECT ${MNN_Math_SRC})
 list(APPEND MNN_OBJECTS_TO_LINK $<TARGET_OBJECTS:MNNMath>)
 list(APPEND MNN_TARGETS MNNMath)
@@ -307,12 +317,14 @@ list(APPEND MNN_TARGETS MNNShape)
 
 # Compute
 FILE(GLOB MNN_Compute_SRC ${CMAKE_CURRENT_LIST_DIR}/source/backend/cpu/compute/*)
+add_source(${MNN_Compute_SRC})
 add_library(MNNCompute OBJECT ${MNN_Compute_SRC})
 list(APPEND MNN_OBJECTS_TO_LINK $<TARGET_OBJECTS:MNNCompute>)
 list(APPEND MNN_TARGETS MNNCompute)
 
 # CPU
 FILE(GLOB MNN_CPU_SRC ${CMAKE_CURRENT_LIST_DIR}/source/backend/cpu/*)
+add_source(${MNN_CPU_SRC})
 add_library(MNNCPU OBJECT ${MNN_CPU_SRC})
 list(APPEND MNN_OBJECTS_TO_LINK $<TARGET_OBJECTS:MNNCPU>)
 list(APPEND MNN_TARGETS MNNCPU)
