@@ -1,4 +1,4 @@
-protobuf_generate_cpp(ONNX_PROTO_SRCS ONNX_PROTO_HDRS
+add_proto(
     ${CMAKE_CURRENT_LIST_DIR}/onnx.proto
     ${CMAKE_CURRENT_LIST_DIR}/onnx-operators.proto
     # onnx-ml.proto
@@ -6,6 +6,7 @@ protobuf_generate_cpp(ONNX_PROTO_SRCS ONNX_PROTO_HDRS
 )
 
 file(GLOB ONNX_SRC ${CMAKE_CURRENT_LIST_DIR}/*.cpp)
+add_source(${ONNX_SRC})
 add_library(MNNConverterONNX OBJECT ${ONNX_SRC} ${ONNX_PROTO_SRCS})
 message(STATUS "Onnx: ${ONNX_PROTO_HDRS}")
 add_executable(OnnxClip ${CMAKE_CURRENT_LIST_DIR}/exec/OnnxClip.cpp ${ONNX_PROTO_SRCS} ${ONNX_PROTO_HDRS} ${CMAKE_CURRENT_LIST_DIR}/OnnxUtils.cpp)
