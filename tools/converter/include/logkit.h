@@ -175,7 +175,7 @@ private:
 class LogMessageFatal {
 public:
     LogMessageFatal(const char* file, int line) {
-        log_stream_ << "[" << pretty_date_.HumanDate() << "] " << file << ":" << line << ": ";
+        // log_stream_ << "[" << pretty_date_.HumanDate() << "] " << file << ":" << line << ": ";
     }
 #if defined(_MSC_VER) && _MSC_VER < 1900
     ~LogMessageFatal() {
