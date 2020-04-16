@@ -1,9 +1,10 @@
-add_proto(
-    ${CMAKE_CURRENT_LIST_DIR}/onnx.proto
-    ${CMAKE_CURRENT_LIST_DIR}/onnx-operators.proto
-    # onnx-ml.proto
-    # onnx-operators-ml.proto
-)
+# We do not use onnx proto here since there is a common onnx module
+# add_proto(
+#     ${CMAKE_CURRENT_LIST_DIR}/onnx.proto
+#     ${CMAKE_CURRENT_LIST_DIR}/onnx-operators.proto
+#     # onnx-ml.proto
+#     # onnx-operators-ml.proto
+# )
 
 file(GLOB ONNX_SRC ${CMAKE_CURRENT_LIST_DIR}/*.cpp)
 add_source(${ONNX_SRC})

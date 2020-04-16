@@ -16,7 +16,7 @@
 #include "flatbuffers/idl.h"
 #include "flatbuffers/minireflect.h"
 #include "flatbuffers/util.h"
-#include "onnx.pb.h"
+#include "onnx/onnx_pb.h"
 #include "onnxConverter.hpp"
 #include "onnxOpConverter.hpp"
 

@@ -14,7 +14,7 @@
 #include <vector>
 #include "MNN_generated.h"
 #include "logkit.h"
-#include "onnx.pb.h"
+#include "onnx/onnx_pb.h"
 
 class onnxOpConverter {
 public:
@@ -26,7 +26,7 @@ public:
                      std::vector<const onnx::TensorProto*> initializers) = 0;
     virtual MNN::OpParameter type()                                      = 0;
     virtual MNN::OpType opType()                                         = 0;
-    static MNN::DataType convertDataType(::onnx::TensorProto_DataType type);
+    static MNN::DataType convertDataType(int type);
     static MNN::BlobT* convertTensorToBlob(const onnx::TensorProto* tensor);
 };
 

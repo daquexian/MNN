@@ -95,8 +95,8 @@ onnxOpConverter* onnxOpConverterSuit::search(const std::string& name) {
     }
     return iter->second;
 }
-MNN::DataType onnxOpConverter::convertDataType(::onnx::TensorProto_DataType type) {
-    static std::map<::onnx::TensorProto_DataType, MNN::DataType> dataTypeMap{
+MNN::DataType onnxOpConverter::convertDataType(int type) {
+    static std::map<int, MNN::DataType> dataTypeMap{
         {onnx::TensorProto_DataType_FLOAT, MNN::DataType_DT_FLOAT},
         {onnx::TensorProto_DataType_INT8, MNN::DataType_DT_INT8},
         {onnx::TensorProto_DataType_INT32, MNN::DataType_DT_INT32},

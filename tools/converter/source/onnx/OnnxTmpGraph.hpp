@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "onnx.pb.h"
+#include "onnx/onnx_pb.h"
 
 class OnnxTmpNode {
 public:

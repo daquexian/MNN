@@ -8,7 +8,7 @@
 
 #include <MNN/MNNDefine.h>
 #include "../OnnxUtils.hpp"
-#include "onnx.pb.h"
+#include "onnx/onnx_pb.h"
 
 int main(int argc, const char* argv[]) {
     if (argc < 4) {
