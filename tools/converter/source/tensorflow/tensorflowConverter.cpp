@@ -27,7 +27,7 @@ int tensorflow2MNNNet(const std::string inputModel, const std::string bizCode, s
     tensorflow::GraphDef tfGraph;
 
     // load
-    bool success = tf_read_proto_from_binary(inputModel.c_str(), &tfGraph);
+    bool success = tfGraph.ParseFromString(inputModel);
     DCHECK(success) << "read_proto_from_binary failed";
     const int node_count = tfGraph.node_size();
     std::map<std::string, MNN::OpT *> nodes;
