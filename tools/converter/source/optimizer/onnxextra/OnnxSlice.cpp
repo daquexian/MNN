@@ -71,7 +71,7 @@ public:
             copyFunction(ends, inputs[2]);
             copyFunction(axes, inputs[3]);
         } else {
-            MNN_ERROR("Slice onnx must have 1 or 4 input\n");
+            MNN_ERROR("Slice onnx must have 1 or 4 input, but %s has %d input\n", sliceOp->name.c_str(), inputs.size());
             return nullptr;
         }
         if (starts.size() != ends.size() || ends.size() != axes.size() || starts.size() != axes.size()) {
