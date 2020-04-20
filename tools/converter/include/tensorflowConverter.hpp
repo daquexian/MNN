@@ -18,6 +18,6 @@
  * @param bizCode(not used, always is MNN)
  * @param MNN net
  */
-int tensorflow2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT);
+int tensorflow2MNNNet(void **buf, const size_t buflen, const std::string bizCode, std::unique_ptr<MNN::NetT> &netT);
 
 #endif // TENSORFLOWCONVERTER_HPP

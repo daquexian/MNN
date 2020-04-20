@@ -23,11 +23,13 @@
 #include "flatbuffers/util.h"
 #include "tfOpConverter.hpp"
 #include "tensorflowConverter.hpp"
-int tensorflow2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT> &netT) {
+int tensorflow2MNNNet(void **buf, const size_t buflen, const std::string bizCode, std::unique_ptr<MNN::NetT> &netT) {
     tensorflow::GraphDef tfGraph;
 
     // load
-    bool success = tfGraph.ParseFromString(inputModel);
+    bool success = tfGraph.ParseFromArray(buf, buflen);
+    free(*buf);
+    *buf = nullptr;
     DCHECK(success) << "read_proto_from_binary failed";
     const int node_count = tfGraph.node_size();
     std::map<std::string, MNN::OpT *> nodes;

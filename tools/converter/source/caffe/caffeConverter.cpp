@@ -19,15 +19,19 @@
 #include "CaffeUtils.hpp"
 #include "caffeConverter.hpp"
 
-int caffe2MNNNet(const std::string prototxt_str, const std::string model_str, const std::string bizCode,
+int caffe2MNNNet(void **txt_buf, const size_t txt_buflen, void **model_buf, const size_t model_buflen, const std::string bizCode,
                  std::unique_ptr<MNN::NetT>& netT) {
     caffe::NetParameter caffeProtxt;
     caffe::NetParameter caffeModel;
-    bool s0 = google::protobuf::TextFormat::ParseFromString(prototxt_str, &caffeProtxt);
-    bool s1 = caffeModel.ParseFromString(model_str);
+    bool s0 = google::protobuf::TextFormat::ParseFromString(std::string(static_cast<char *>(*txt_buf), txt_buflen), &caffeProtxt);
+    free(*txt_buf);
+    *txt_buf = nullptr;
     DCHECK(s0) << "read_proto_from_text failed";
-
+    bool s1 = caffeModel.ParseFromArray(*model_buf, model_buflen);
+    free(*model_buf);
+    *model_buf = nullptr;
     DCHECK(s1) << "read_proto_from_binary failed";
+
     std::map<std::string, int> tensorName;
 
     // Load Parameters

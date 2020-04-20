@@ -20,11 +20,13 @@
 #include "onnxConverter.hpp"
 #include "onnxOpConverter.hpp"
 
-int onnx2MNNNet(const std::string inputModel, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT) {
+int onnx2MNNNet(void **buf, const size_t buflen, const std::string bizCode, std::unique_ptr<MNN::NetT>& netT) {
     onnx::ModelProto onnxModel;
     // read ONNX Model
-    bool success = onnxModel.ParseFromString(inputModel);
-    DCHECK(success) << "read onnx model failed: " << inputModel;
+    bool success = onnxModel.ParseFromArray(*buf, buflen);
+    free(*buf);
+    *buf = nullptr;
+    DCHECK(success) << "read onnx model failed: ";
 
     LOG(INFO) << "ONNX Model ir version: " << onnxModel.ir_version();
 
